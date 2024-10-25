@@ -5,7 +5,7 @@ const http = require('http'),
 http.createServer((request, response) => {
 
     let addr = request.url,
-        q = new URL(addr, 'http://' + request.headers.host)
+        q = new URL(addr, 'http://' + request.headers.host),
         filePath = '';
 
     fs.appendFile('log.txt', 'URL: ' + addr 
@@ -20,7 +20,7 @@ http.createServer((request, response) => {
     if (q.pathname.includes('documentation')) {
         filePath = (__dirname + '/documentation.html');
         } else {
-            filepath = 'index.html';
+            filePath = ('index.html');
     }
 
     fs.readFile(filePath, (err, data) => {
@@ -29,7 +29,7 @@ http.createServer((request, response) => {
         }
         response.writeHead(200, {'Content-Type': 'text/html'});
         response.write(data);
-        response.end('I will have what she is having!\n'); 
+        response.end('I will have what ' + q.pathname + ' she is having');
     });
 
 }).listen(8080);
