@@ -1,20 +1,17 @@
-const express = require('express');
+const express = require('express'),
+    morgan = require('morgan');
+
 const app = express();
 
-let myLogger = (req, res, next) => {
-    console.log (req.url);
-    next();
-};
+app.use(morgan('common'));
 
-let requestTime = (req, res, next) => {
-    req.requestTime = Date.now();
-    next();
-}
-
-app.use(myLogger);
-app.use(requestTime);
+app.get('/', (req, res) => {
+    res.send('Boooooooooooo! Halloween!');
+})
 
 app.get('/movies', (req, res) => {
+    let responseText = 'Boo! Halloween, Boo!'
+    responseText += '<small>Requested at: ' + req.requestTime + '</small>';
     res.json(movies);
 });
 
