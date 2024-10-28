@@ -9,16 +9,54 @@ const app = express(),
 app.use(morgan('combined', {stream: accessLogStream}));
 
 app.get('/', (req, res) => {
-    res.send('Boooooooooooo! Halloween!');
+    res.send('Boo! Halloween, Boo!!');
 })
 
 app.get('/movies', (req, res) => {
-    let responseText = 'Boo! Halloween, Boo!'
-    responseText += '<small>Requested at: ' + req.requestTime + '</small>';
-    res.json(movies);
+    res.json({Movie1: {
+        Title: "Shadows of Our Forgotton Anscestors",
+        Year: "1964"
+    },
+    Movie2: {
+        Title: "Visitor of a Museum",
+        Year: "1989"
+    },
+    Movie3: {
+        Title: "Mothlight",
+        Year: "1963"
+    },
+    Movie4: {
+        Title: "News from Home",
+        Year: "1977"
+    },
+    Movie5: {
+        Title: "J'accuse!",
+        Year: "1919"
+    },
+    Movie6: {
+        Title: "Marketa Lazarova",
+        Year: "1967"
+    },
+    Movie7: {
+        Title: "Tokyo Story",
+        Year: "1953"
+    },
+    Movie8: {
+        Title: "The Mirror",
+        Year: "1975"
+    },
+    Movie9: {
+        Title: "Ordet",
+        Year: "1955"
+    },
+    Movie10: {
+        Title: "Pastor: To Die in the Country",
+        Year: "1974"
+    }
+});
 });
 
-app.use('/documentation', express.static('public'));
+app.use(express.static('public'));
 
 app.use((err, req, res, next) => {
     console.error(err.stack);
