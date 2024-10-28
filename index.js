@@ -15,6 +15,8 @@ app.get('/movies', (req, res) => {
     res.json(movies);
 });
 
+app.use('/documentation', express.static('public'));
+
 app.listen(8080, () => {
     console.log('8080 - Your app is listening...')
 })
