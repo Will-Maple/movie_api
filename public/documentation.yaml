@@ -1,0 +1,46 @@
+openapi: 3.0.0
+
+info:
+  title: Movie API
+  description: An API being used to learn programming with NODE and back-end web development. I use movie data from the MosFilm youtube channel.
+  version: 1.0.0.DEV
+
+
+servers:
+  - url: http://localhost:8080/
+    description: Server for Development
+
+
+paths:
+  /movies:
+    get:
+      summary: Returns a list of movies.
+      description: An array of movies will be sent as a JSON file.
+      responses:
+        "200":
+          description: A JSON array of movie details.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+  /movies{title}:
+    get:
+      summary: Gets a movie by title.
+      parameters:
+      - in: path
+        name: title
+        schema:
+          type: string
+        required: true
+        description: title of movie to get
+      responses:
+        "200":
+          description: OK.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
