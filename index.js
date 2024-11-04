@@ -50,7 +50,7 @@ app.get('/movies', (req, res) => {
         Year: "1955"
     },
     Movie10: {
-        Title: "Pastor: To Die in the Country",
+        Title: "Pastoral: To Die in the Country",
         Year: "1974"
     }
 });
