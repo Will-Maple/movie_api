@@ -181,7 +181,7 @@ app.put('/user/:id', (req, res) => {
 
     if (user) {
         user.Name = updatedUser.Name;
-        res.status(200).json(user);
+        res.status(20).json(user);
     } else {
         res.status(400).send('no user with that id')
     }
@@ -195,7 +195,7 @@ app.post('/user/:id/:movieTitle'), (req, res) => {
 
     if (user) {
         user.FavoriteMovies.push(movieTitle);
-        res.status(200).send("${movieTitle} has been added to user ${id}'s favorite movies");
+        res.status(201).send("${movieTitle} has been added to user ${id}'s favorite movies");
     } else {
         res.status(400).send('no user with that id');
     }

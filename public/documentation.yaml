@@ -138,7 +138,7 @@ paths:
     post:
       summary: adds a favorite movie to user's favorite movie
       responses:
-        "200":
+        "201":
           description: notification that movie has been added
           content:
             text/plain: movieTitle has been added to user id's favorite movies
@@ -152,6 +152,18 @@ paths:
       responses:
         "200":
           description: notification that movie has been removed
+          content:
+            text/plain: movieTitle has been removed from user id's favorite movies
+        "400": 
+          description: Error - no user found with inputed id
+            content:
+              text/plain: no user with that id
+  /user/{id}:
+    delete:
+      summary: removes a user by id
+      responses:
+        "200":
+          description: notification that user has been removed
           content:
             text/plain: movieTitle has been removed from user id's favorite movies
         "400": 
