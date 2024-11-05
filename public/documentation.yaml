@@ -22,7 +22,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Movie"
+                $ref: "#/components/schemas/movies"
   /movies/{title}:
     get:
       summary: Gets a movie by title.
@@ -41,9 +41,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Movie" 
+                $ref: "#/components/schemas/movies" 
         "400":
-          description: Error - no item was found with requested title
+          description: Error - no movie was found with requested title
           content:
             text/plain: no such movie
   /movies/genre/{genreName}:
@@ -64,9 +64,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Movies/items/genre" 
+                $ref: "#/components/schemas/movies/items/genre" 
         "400":
-          description: Error - no item was found with requested title
+          description: Error - no genre was found with requested name
           content:
             text/plain: no such genre
   /movies/director/{directorName}:
@@ -87,9 +87,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Movies/items/Director" 
+                $ref: "#/components/schemas/movies/items/Director" 
         "400":
-          description: Error - no item was found with requested title
+          description: Error - no director was found with requested name
           content:
             text/plain: no such director
   /user:
@@ -101,10 +101,42 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Users" 
+              $ref: "#/components/schemas/users"
+      responses:
+        "200":
+          description: details of new user
+          content:
+            applications/json:
+              schema:
+                $ref: "#/components/schemas/users"
+        "400": 
+          description: Error - request is missing name
+            content:
+              text/plain: Needs a name!
+  /user/{id}:
+    put:
+      summary: Updates the user's name with inputed id
+      requestBody: 
+        description: details of user to be updated
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/users"
+      responses:
+        "200":
+          description: details of updated user
+          content:
+            applications/json:
+              schema:
+                $ref: "#/components/schemas/users"
+        "400": 
+          description: Error - no user found with inputed id
+            content:
+              text/plain: no user with that id
   components:
     schemas:
-      Movie:
+      movies:
         type: array
         items:
           Title: string
@@ -119,7 +151,7 @@ paths:
           Genre: array
             Name: string
             Description: string
-      Users:
+      users:
         type: array
         items:
           ID: string
