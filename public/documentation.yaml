@@ -23,7 +23,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Movie"
-  /movies{title}:
+  /movies/{title}:
     get:
       summary: Gets a movie by title.
       parameters:
@@ -45,7 +45,53 @@ paths:
         "400":
           description: Error - no item was found with requested title
           content:
-            text/plain:
+            text/plain: no such movie
+  /movies/genre/{genreName}:
+    get:
+      summary: Gets a genre by name.
+      parameters:
+      - in: path
+        name: Genre.Name
+        schema:
+          type: string
+          enum: [Drama, War Movie, Science Fiction]
+          example: Drama
+        required: true
+        description: title of genre to get
+      responses:
+        "200":
+          description: genre details requested
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Genre" 
+        "400":
+          description: Error - no item was found with requested title
+          content:
+            text/plain: no such genre
+  /movies/director/{directorName}:
+    get:
+      summary: Gets a director by name.
+      parameters:
+      - in: path
+        name: Director.Name
+        schema:
+          type: string
+          enum: [Andrey Tarkovsky]
+          example: Andrey Tarkovsky
+        required: true
+        description: name of director to get
+      responses:
+        "200":
+          description: director details requested
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Director" 
+        "400":
+          description: Error - no item was found with requested title
+          content:
+            text/plain: no such director
   components:
     schemas:
       Movie:
@@ -53,7 +99,8 @@ paths:
         items:
           title: string
           year: int
-          director: string
+          director: array
+            name: string
           descriptions: string
           URL: string
           subs: array
@@ -62,3 +109,12 @@ paths:
           Genre: array
             Name: string
             Description: string
+      Genre:
+        type: array
+        items:
+          Name: string
+          Description: string
+      Director:
+        type: array
+        items:
+          Name: string

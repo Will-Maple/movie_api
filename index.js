@@ -12,7 +12,9 @@ app.use(morgan('combined', {stream: accessLogStream}));
 app.use(bodyParser.json());
 
 let users = [
-
+    {
+        Name: "Me Myself"
+    }
 ];
     
 let movies = [
@@ -154,6 +156,12 @@ app.get('/movies/director/:directorName', (req, res) => {
         res.status(400).send('no such director')
     }
 });
+
+// Create User
+app.post('/user', (req, res) => {
+    const newUser = req.body;
+
+})
 
 app.use(express.static('public'));
 
