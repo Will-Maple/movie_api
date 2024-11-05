@@ -151,7 +151,7 @@ app.get('/movies/director/:directorName', (req, res) => {
         const director = findMovie.Name;
         res.status(200).json(director);
     } else {
-        res.status(400).send('no such genre')
+        res.status(400).send('no such director')
     }
 });
 
