@@ -177,7 +177,7 @@ app.put('/user/:id', (req, res) => {
     const { id } = req.params;
     const updatedUser = req.body;
 
-    let user = users.find( user => users.id === id);
+    let user = users.find( user => user.ID === id);
 
     if (user) {
         user.Name = updatedUser.Name;
@@ -191,7 +191,7 @@ app.put('/user/:id', (req, res) => {
 app.post('/user/:id/:movieTitle'), (req, res) => {
     const { id, movieTitle } = req.params;
 
-    let user = users.find( user => users.id === id);
+    let user = users.find( user => user.ID === id);
 
     if (user) {
         user.FavoriteMovies.push(movieTitle);
@@ -205,11 +205,25 @@ app.post('/user/:id/:movieTitle'), (req, res) => {
 app.delete('/user/:id/:movieTitle'), (req, res) => {
     const { id, movieTitle } = req.params;
 
-    let user = users.find( user => users.id === id);
+    let user = users.find( user => user.ID === id);
 
     if (user) {
         user.FavoriteMovies.filter( title => title !== movieTitle);
         res.status(200).send("${movieTitle} has been removed from user ${id}'s favorite movies");
+    } else {
+        res.status(400).send('no user with that id');
+    }
+}
+
+// delete user
+app.delete('/user/:id'), (req, res) => {
+    const { id } = req.params;
+
+    let user = users.find( user => user.ID === id);
+
+    if (user) {
+        users = users.filter( user => user.ID !== id);
+        res.status(200).send('user ${id} has been deleted');
     } else {
         res.status(400).send('no user with that id');
     }
