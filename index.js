@@ -187,6 +187,20 @@ app.put('/user/:id', (req, res) => {
     }
 });
 
+// Create Favorite Movie (maybe check if movieTitle exists)
+app.post('/user/:id/:movieTitle'), (req, res) => {
+    const { id, movieTitle } = req.params;
+
+    let user = users.find( user => users.id === id);
+
+    if (user) {
+        user.FavoriteMovies.push(movieTitle);
+        res.status(200).send("${movieTitle} has been added to user ${id}'s favorite movies");
+    } else {
+        res.status(400).send('no user with that id');
+    }
+}
+
 app.use(express.static('public'));
 
 app.use((err, req, res, next) => {
