@@ -64,7 +64,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Genre" 
+                $ref: "#/components/schemas/Movies/items/genre" 
         "400":
           description: Error - no item was found with requested title
           content:
@@ -87,34 +87,41 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Director" 
+                $ref: "#/components/schemas/Movies/items/Director" 
         "400":
           description: Error - no item was found with requested title
           content:
             text/plain: no such director
+  /user:
+    post:
+      summary: add a new user
+      requestBody: 
+        description: details of user to be added
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Users" 
   components:
     schemas:
       Movie:
         type: array
         items:
-          title: string
-          year: int
-          director: array
-            name: string
-          descriptions: string
+          Title: string
+          Year: int
+          Director: array
+            Name: string
+          Description: string
           URL: string
-          subs: array
+          Subs: array
             Spanish: boolean
             SpanishURL: string
           Genre: array
             Name: string
             Description: string
-      Genre:
+      Users:
         type: array
         items:
+          ID: string
           Name: string
-          Description: string
-      Director:
-        type: array
-        items:
-          Name: string
+          FavoriteMovies: array

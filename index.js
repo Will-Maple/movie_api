@@ -13,8 +13,9 @@ app.use(bodyParser.json());
 
 let users = [
     {
-        ID: 1,
-        Name: "Me Myself"
+        ID: "This is an example!",
+        Name: "Me Myself",
+        FavoriteMovies: {}
     }
 ];
     
