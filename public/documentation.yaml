@@ -22,9 +22,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: string
+                $ref: "#/components/schemas/Movie"
   /movies{title}:
     get:
       summary: Gets a movie by title.
@@ -33,14 +31,34 @@ paths:
         name: title
         schema:
           type: string
+          enum: [Stalker, Solaris, The Mirror, Andrei Rublev, Ivan's Childhood]
+          example: Stalker
         required: true
         description: title of movie to get
       responses:
         "200":
-          description: OK.
+          description: movie details requested
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: string
+                $ref: "#/components/schemas/Movie" 
+        "400":
+          description: Error - no item was found with requested title
+          content:
+            text/plain:
+  components:
+    schemas:
+      Movie:
+        type: array
+        items:
+          title: string
+          year: int
+          director: string
+          descriptions: string
+          URL: string
+          subs: array
+            Spanish: boolean
+            SpanishURL: string
+          Genre: array
+            Name: string
+            Description: string
