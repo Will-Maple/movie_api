@@ -146,6 +146,18 @@ paths:
           description: Error - no user found with inputed id
             content:
               text/plain: no user with that id
+  /user/{id}/{movieTitle}:
+    delete:
+      summary: removes a favorite movie from user's favorite movie
+      responses:
+        "200":
+          description: notification that movie has been removed
+          content:
+            text/plain: movieTitle has been removed from user id's favorite movies
+        "400": 
+          description: Error - no user found with inputed id
+            content:
+              text/plain: no user with that id
   components:
     schemas:
       movies:
