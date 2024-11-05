@@ -57,7 +57,7 @@ let movies = [
             "SpanishURL": "#"
         },
         "Genre": {
-            "Name": "War Movies",
+            "Name": "War Movie",
             "Description": "War Movies are narrative films set in war conflicts, typically based on historical conflicts."
         }
     },
@@ -119,12 +119,13 @@ app.get('/movies/:title', (req, res) => {
     }
 });
 
-// Read Subs
+// Read Genre
 app.get('/movies/genre/:genreName', (req, res) => {
     const { genreName } = req.params;
-    const genre = movies.find( movie => movie.Genre.Name === genreName ).Genre;
+    const findMovie = movies.find( movie => movie.Genre.Name === genreName);
 
-    if (genre) {
+    if (findMovie) {
+        const genre = findMovie.Genre;
         res.status(200).json(genre);
     } else {
         res.status(400).send('no such genre')
