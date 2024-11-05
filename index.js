@@ -201,6 +201,20 @@ app.post('/user/:id/:movieTitle'), (req, res) => {
     }
 }
 
+// delete favorite movie
+app.delete('/user/:id/:movieTitle'), (req, res) => {
+    const { id, movieTitle } = req.params;
+
+    let user = users.find( user => users.id === id);
+
+    if (user) {
+        user.FavoriteMovies.filter( title => title !== movieTitle);
+        res.status(200).send("${movieTitle} has been removed from user ${id}'s favorite movies");
+    } else {
+        res.status(400).send('no user with that id');
+    }
+}
+
 app.use(express.static('public'));
 
 app.use((err, req, res, next) => {
