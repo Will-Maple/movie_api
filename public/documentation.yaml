@@ -134,6 +134,18 @@ paths:
           description: Error - no user found with inputed id
             content:
               text/plain: no user with that id
+  /user/{id}/{movieTitle}:
+    post:
+      summary: adds a favorite movie to user's favorite movie
+      responses:
+        "200":
+          description: notification that movie has been added
+          content:
+            text/plain: movieTitle has been added to user id's favorite movies
+        "400": 
+          description: Error - no user found with inputed id
+            content:
+              text/plain: no user with that id
   components:
     schemas:
       movies:
