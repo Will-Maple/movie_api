@@ -165,7 +165,7 @@ paths:
         "200":
           description: notification that user has been removed
           content:
-            text/plain: movieTitle has been removed from user id's favorite movies
+            text/plain: user id has been deleted
         "400": 
           description: Error - no user found with inputed id
             content:
