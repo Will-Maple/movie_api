@@ -170,7 +170,22 @@ app.post('/user', (req, res) => {
     } else {
         res.status(400).send('Needs a name!')
     }
-})
+});
+
+// Update User
+app.put('/user/:id', (req, res) => {
+    const { id } = req.params;
+    const updatedUser = req.body;
+
+    let user = users.find( user => users.id === id);
+
+    if (user) {
+        user.Name = updatedUser.Name;
+        res.status(200).json(user);
+    } else {
+        res.status(400).send('no user with that id')
+    }
+});
 
 app.use(express.static('public'));
 
