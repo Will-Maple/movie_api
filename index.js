@@ -13,6 +13,7 @@ app.use(bodyParser.json());
 
 let users = [
     {
+        ID: 1,
         Name: "Me Myself"
     }
 ];
@@ -161,6 +162,13 @@ app.get('/movies/director/:directorName', (req, res) => {
 app.post('/user', (req, res) => {
     const newUser = req.body;
 
+    if (newUser.name) {
+        newUser.id = uuid.v4();
+        users.push(newUser);
+        res.status(201).json(newUser);
+    } else {
+        res.status(400).send('Needs a name!')
+    }
 })
 
 app.use(express.static('public'));
