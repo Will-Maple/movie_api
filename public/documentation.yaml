@@ -51,7 +51,7 @@ paths:
       summary: Gets a genre by name.
       parameters:
       - in: path
-        name: Genre.Name
+        name: genreName
         schema:
           type: string
           enum: [Drama, War Movie, Science Fiction]
@@ -64,7 +64,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/movies/items/genre" 
+                $ref: "#/components/schemas/movies/items/properties/Genre" 
         "400":
           description: Error - no genre was found with requested name
           content:
@@ -74,7 +74,7 @@ paths:
       summary: Gets a director by name.
       parameters:
       - in: path
-        name: Director.Name
+        name: directorName
         schema:
           type: string
           enum: [Andrey Tarkovsky]
@@ -87,7 +87,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/movies/items/Director" 
+                $ref: "#/components/schemas/movies/items/properties/Director" 
         "400":
           description: Error - no director was found with requested name
           content:
@@ -116,6 +116,14 @@ paths:
   /user/{id}:
     put:
       summary: Updates the user's name with inputed id
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          enum: [This is an example!]
+          example: This is an example!
+        required: true
       requestBody: 
         description: details of user to be updated
         required: true
@@ -137,6 +145,21 @@ paths:
   /user/{id}/{movieTitle}:
     post:
       summary: adds a favorite movie to user's favorite movie
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          enum: [This is an example!]
+          example: This is an example!
+        required: true
+      - in: path
+        name: movieTitle
+        schema:
+          type: string
+          enum: [Stalker, Solaris, The Mirror, Andrei Rublev, Ivan's Childhood]
+          example: Stalker
+        required: true
       responses:
         "201":
           description: notification that movie has been added
@@ -149,6 +172,21 @@ paths:
   /user/{id}/{movieTitle}:
     delete:
       summary: removes a favorite movie from user's favorite movie
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          enum: [This is an example!]
+          example: This is an example!
+        required: true
+      - in: path
+        name: movieTitle
+        schema:
+          type: string
+          enum: [Stalker, Solaris, The Mirror, Andrei Rublev, Ivan's Childhood]
+          example: Stalker
+        required: true
       responses:
         "200":
           description: notification that movie has been removed
@@ -161,6 +199,14 @@ paths:
   /user/{id}:
     delete:
       summary: removes a user by id
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          enum: [This is an example!]
+          example: This is an example!
+        required: true
       responses:
         "200":
           description: notification that user has been removed
@@ -175,21 +221,57 @@ paths:
       movies:
         type: array
         items:
-          Title: string
-          Year: int
-          Director: array
-            Name: string
-          Description: string
-          URL: string
-          Subs: array
-            Spanish: boolean
-            SpanishURL: string
-          Genre: array
-            Name: string
-            Description: string
+          type: object
+          properties:
+            Title: 
+              type: string
+            Year: 
+             type: int
+            Director: 
+              type: array
+                items:
+                  properties:
+                    Name: 
+                      type: string
+                example:
+                  - Name: Andrey Tarkovsky
+            Description: 
+              type: string
+            URL: 
+              type: string
+            Subs: 
+            type: array
+              items:
+                properties:
+                  Spanish: 
+                    type: boolean
+                  SpanishURL: 
+                    type: string
+              example:
+                - Spanish: true
+                - SpanishURL: "#"
+            Genre: array
+              items:
+                properties:
+                  Name: 
+                    type: string
+                  Description:
+                    type: string
+              example:
+                - Name: Drama
+                - Description: The genre is...
       users:
         type: array
         items:
-          ID: string
-          Name: string
-          FavoriteMovies: array
+          type: object
+          properties:
+            ID: 
+              type: string
+            Name:
+              type: string
+            FavoriteMovies:
+              type: array
+        example: 
+          - ID: This is an example!
+          - Name: Me Myself
+          - FavoriteMovies: {Stalker, Ivan's Childhood}
