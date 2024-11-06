@@ -274,4 +274,4 @@ paths:
         example: 
           - ID: This is an example!
           - Name: Me Myself
-          - FavoriteMovies: {Stalker, Ivan's Childhood}
+          - FavoriteMovies: [Stalker, Ivan's Childhood]

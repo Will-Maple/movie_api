@@ -13,9 +13,9 @@ app.use(bodyParser.json());
 
 let users = [
     {
-        ID: "This is an example!",
+        ID: "test",
         Name: "Me Myself",
-        FavoriteMovies: {}
+        FavoriteMovies: []
     }
 ];
     
@@ -107,11 +107,12 @@ let movies = [
     }
 ];
 
+// Read Documentation
 app.get('/', (req, res) => {
     res.status(200).sendFile(path.join(__dirname, '/public/documentation.yaml'));
 })
 
-//Read all
+// Read all
 app.get('/movies', (req, res) => {
     res.status(200).json(movies);
 });
@@ -147,7 +148,7 @@ app.get('/movies/director/:directorName', (req, res) => {
     const findMovie = movies.find( movie => movie.Director.Name === directorName);
 
     if (findMovie) {
-        const director = findMovie.Name;
+        const director = findMovie.Director;
         res.status(200).json(director);
     } else {
         res.status(400).send('no such director')
@@ -158,7 +159,7 @@ app.get('/movies/director/:directorName', (req, res) => {
 app.post('/user', (req, res) => {
     const newUser = req.body;
 
-    if (newUser.name) {
+    if (newUser.Name) {
         newUser.id = uuid.v4();
         users.push(newUser);
         res.status(201).json(newUser);
@@ -176,53 +177,53 @@ app.put('/user/:id', (req, res) => {
 
     if (user) {
         user.Name = updatedUser.Name;
-        res.status(20).json(user);
+        res.status(200).json(user);
     } else {
         res.status(400).send('no user with that id')
     }
 });
 
 // Create Favorite Movie (maybe check if movieTitle exists)
-app.post('/user/:id/:movieTitle'), (req, res) => {
+app.post('/user/:id/:movieTitle', (req, res) => {
     const { id, movieTitle } = req.params;
 
     let user = users.find( user => user.ID === id);
 
     if (user) {
         user.FavoriteMovies.push(movieTitle);
-        res.status(201).send("${movieTitle} has been added to user ${id}'s favorite movies");
+        res.status(201).send(`${movieTitle} has been added to user ${id}'s favorite movies`);
     } else {
         res.status(400).send('no user with that id');
     }
-}
+});
 
 // delete favorite movie
-app.delete('/user/:id/:movieTitle'), (req, res) => {
+app.delete('/user/:id/:movieTitle', (req, res) => {
     const { id, movieTitle } = req.params;
 
     let user = users.find( user => user.ID === id);
 
     if (user) {
         user.FavoriteMovies.filter( title => title !== movieTitle);
-        res.status(200).send("${movieTitle} has been removed from user ${id}'s favorite movies");
+        res.status(200).send(`${movieTitle} has been removed from user ${id}'s favorite movies`);
     } else {
         res.status(400).send('no user with that id');
     }
-}
+});
 
 // delete user
-app.delete('/user/:id'), (req, res) => {
+app.delete('/user/:id', (req, res) => {
     const { id } = req.params;
 
     let user = users.find( user => user.ID === id);
 
     if (user) {
         users = users.filter( user => user.ID !== id);
-        res.status(200).send('user ${id} has been deleted');
+        res.status(200).send(`user ${id} has been deleted`);
     } else {
         res.status(400).send('no user with that id');
     }
-}
+});
 
 app.use(express.static('public'));
 
