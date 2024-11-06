@@ -201,3 +201,5 @@ Timestamp: Fri Oct 25 2024 14:20:18 GMT-0500 (Central Daylight Time)
 ::ffff:127.0.0.1 - - [05/Nov/2024:07:08:08 +0000] "GET /movies/genre/test HTTP/1.1" 400 13 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:132.0) Gecko/20100101 Firefox/132.0"
 ::ffff:127.0.0.1 - - [05/Nov/2024:07:08:13 +0000] "GET /movies/genre/drama HTTP/1.1" 400 13 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:132.0) Gecko/20100101 Firefox/132.0"
 ::ffff:127.0.0.1 - - [05/Nov/2024:07:08:19 +0000] "GET /movies/genre/Drama HTTP/1.1" 200 104 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:132.0) Gecko/20100101 Firefox/132.0"
+::ffff:127.0.0.1 - - [06/Nov/2024:00:27:26 +0000] "GET / HTTP/1.1" 200 8154 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:132.0) Gecko/20100101 Firefox/132.0"
+::1 - - [06/Nov/2024:00:28:33 +0000] "GET /movies HTTP/1.1" 200 4891 "-" "PostmanRuntime/7.42.0"

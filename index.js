@@ -116,11 +116,6 @@ app.get('/movies', (req, res) => {
     res.status(200).json(movies);
 });
 
-app.get('/movies/test/:year', (req, res) => {
-    res.json(movies.find((movie) =>
-    { return String(movie.Year) === req.params.year}));
-});
-
 // Read title
 app.get('/movies/:title', (req, res) => {
     const { title } = req.params;
