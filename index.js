@@ -3,10 +3,16 @@ const express = require('express'),
     fs = require('fs'),
     path = require('path'),
     bodyParser = require('body-parser'),
-    uuid = require('uuid');
+    uuid = require('uuid'),
+    mongoose = require('mongoose'),
+    Models = require('./models.js');
 
 const app = express(),
     accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), {flags: 'a'});
+
+const Movies = Models.Movie,
+    Users = Models.User;
+mongoose.connect('mongodb://localhost:27017/csmfdb', { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.use(morgan('combined', {stream: accessLogStream}));
 app.use(bodyParser.json());
