@@ -376,8 +376,8 @@ paths:
             Favorites:
               type: array
         example: 
-          - Username: callmethis
+          - Username: Template
           - Password: Password123
           - Email: 1234@mail.com
-          - Birthdate: ISODate('1984-02-19T00:00:00.000Z')
+          - Birthdate: 1984-02-19T00:00:00.000Z
           - FavoriteMovies: ['672d36d13fdc6e5e560d8197', '672d36d13fdc6e5e560d8199']

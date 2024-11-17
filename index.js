@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 })
 
 // Read All Users
-app.get('/users', async (req, req) => {
+app.get('/users', async (req, res) => {
     await Users.find()
         .then((users) => {
             res.status(200).json(users);
@@ -103,7 +103,7 @@ app.put('/users/:Username', async (req, res) => {
 
 // Delete User by Username
 app.delete('/users/:Username', async (req, res) => {
-    await Users.findOneAndRemove({ Username: req.params.Username })
+    await Users.findOneAndDelete({ Username: req.params.Username })
         .then((user) => {
             if (!user) {
                 res.status(400).send(req.params.Username + ' was not found');
@@ -147,12 +147,12 @@ app.get('/movies/:title', async (req, res) => {
 
 // Read Genre
 app.get('/movies/genre/:genreName', async (req, res) => {
-    await Movies.findOne({ Genre: req.params.genreName })
+    await Movies.findOne({ 'Genre.Name': req.params.genreName })
     .then((movie) => {
         if(!movie) {
             res.status(400).send(req.params.genreName + ' not found');
         } else {
-            res.status(200).json(movie);
+            res.status(200).json(movie.Genre);
         }
     })
     .catch((err) => {
@@ -163,12 +163,12 @@ app.get('/movies/genre/:genreName', async (req, res) => {
 
 // Read Director
 app.get('/movies/director/:directorName', async (req, res) => {
-    await Movies.findOne({ Director: req.params.directorName })
+    await Movies.findOne({ 'Director.Name': req.params.directorName })
     .then((movie) => {
         if(!movie) {
             res.status(400).send(req.params.directorName + ' not found');
         } else {
-            res.status(200).json(movie);
+            res.status(200).json(movie.Director);
         }
     })
     .catch((err) => {
