@@ -142,6 +142,26 @@ app.get('/users/:Username', async (req, res) => {
     });
 });
 
+// Update User by Username
+app.put('/users/:Username', async (req, res) => {
+    await Users.findOneAndUpdate({ Username: req.params.Username },
+    { $set: {
+        Username: req.body.Username,
+        Password: req.body.Password,
+        Email: req.body.Email,
+        Birthday: req.body.Birthday
+        }
+    },
+    { new: true })
+    .then((updatedUser) => {
+        res.json(updatedUser);
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
+    })
+});
+
 // Read all Movies
 app.get('/movies', (req, res) => {
     res.status(200).json(movies);
@@ -229,8 +249,8 @@ app.put('/user/:id', (req, res) => {
     }
 });
 
-// Create Favorite Movie (maybe check if movieTitle exists)
-app.post('/user/:id/:movieTitle', (req, res) => {
+// Create Favorite Movie by Username and MovieID
+app.post('/users/:Username/movies/:movieID', (req, res) => {
     const { id, movieTitle } = req.params;
 
     let user = users.find( user => user.ID === id);
@@ -243,8 +263,8 @@ app.post('/user/:id/:movieTitle', (req, res) => {
     }
 });
 
-// delete favorite movie
-app.delete('/user/:id/:movieTitle', (req, res) => {
+// delete favorite movie by Username and MovieID
+app.delete('/users/:Username/movies/:movieID', (req, res) => {
     const { id, movieTitle } = req.params;
 
     let user = users.find( user => user.ID === id);
