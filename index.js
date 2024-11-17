@@ -51,7 +51,7 @@ app.get('/users/:Username', async (req, res) => {
 });
 
 // Create User
-app.post('/user', async (req, res) => {
+app.post('/users', async (req, res) => {
     await Users.findOne({ Username: req.body.Username })
         .then((user) => {
             if (user) {
@@ -90,7 +90,7 @@ app.put('/users/:Username', async (req, res) => {
     { new: true })
     .then((updatedUser) => {
         if(!updatedUser) {
-            res.status(400).send(req.params.Username + ' no such Username');
+            res.status(400).send(req.params.Username + ' - there is no such user');
         } else {
             res.status(200).json(updatedUser);
         }
@@ -102,7 +102,7 @@ app.put('/users/:Username', async (req, res) => {
 });
 
 // Delete User by Username
-app.delete('/user/:Username', async (req, res) => {
+app.delete('/users/:Username', async (req, res) => {
     await Users.findOneAndRemove({ Username: req.params.Username })
         .then((user) => {
             if (!user) {
@@ -180,11 +180,15 @@ app.get('/movies/director/:directorName', async (req, res) => {
 // Create Favorite Movie by Username and MovieID
 app.post('/users/:Username/movies/:movieID', async (req, res) => {
     await Users.findOneAndUpdate({ Username: req.params.Username },
-        { $addToSet: { Favorites: req.params.MovieID }
+        { $addToSet: { Favorites: req.params.movieID }
     },
     { new: true})
     .then((updatedUser) => {
-        res.json(updatedUser);
+        if(!updatedUser) {
+            res.status(400).send(req.params.Username + ' not found');
+        } else {
+            res.status(201).send(req.params.movieID + ' has been added to ' + req.params.Username + '\'s favorites');
+        }
     })
     .catch((err) => {
         console.error(err);
@@ -195,11 +199,15 @@ app.post('/users/:Username/movies/:movieID', async (req, res) => {
 // delete favorite movie by Username and MovieID
 app.delete('/users/:Username/movies/:movieID', async (req, res) => {
     await Users.findOneAndUpdate({ Username: req.params.Username },
-        { $pull: { Favorites: req.params.MovieID }
+        { $pull: { Favorites: req.params.movieID }
     },
     { new: true})
     .then((updatedUser) => {
-        res.json(updatedUser);
+        if(!updatedUser) {
+            res.status(400).send(req.params.Username + ' not found');
+        } else {
+            res.status(201).send(req.params.movieID + ' has been removed from ' + req.params.Username + '\'s favorites');
+        }
     })
     .catch((err) => {
         console.error(err);

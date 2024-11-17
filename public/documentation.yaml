@@ -12,6 +12,15 @@ servers:
 
 
 paths:
+  /:
+    get:
+      summary: Returns this documentation file.
+      description: Returns this file that you are looking at right here.
+      reponses:
+        "200":
+          description: This document.
+          content:
+            application/json:
   /movies:
     get:
       summary: Returns a list of movies.
@@ -23,6 +32,10 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/movies"
+        "500":
+          description: Catch all error message
+          content:
+            text/plain: Error + description of error
   /movies/{title}:
     get:
       summary: Gets a movie by title.
@@ -45,7 +58,11 @@ paths:
         "400":
           description: Error - no movie was found with requested title
           content:
-            text/plain: no such movie
+            text/plain: title not found
+        "500":
+          description: Catch all error message
+          content:
+            text/plain: Error + description of error
   /movies/genre/{genreName}:
     get:
       summary: Gets a genre by name.
@@ -68,7 +85,11 @@ paths:
         "400":
           description: Error - no genre was found with requested name
           content:
-            text/plain: no such genre
+            text/plain: genreName not found
+        "500":
+          description: Catch all error message
+          content:
+            text/plain: Error + description of error
   /movies/director/{directorName}:
     get:
       summary: Gets a director by name.
@@ -91,8 +112,12 @@ paths:
         "400":
           description: Error - no director was found with requested name
           content:
-            text/plain: no such director
-  /user:
+            text/plain: directorName not found
+        "500":
+          description: Catch all error message
+          content:
+            text/plain: Error + description of error
+  /users:
     get:
       summary: Returns a list of all users.
         description: An array of all users will be sent as a JSON file.
@@ -124,10 +149,14 @@ paths:
               schema:
                 $ref: "#/components/schemas/users"
         "400": 
-          description: Error - request is missing name
+          description: The Username requested is already taken. It must be unique.
             content:
-              text/plain: Needs a name!
-  /user/{Username}:
+              text/plain: Username already exists
+        "500":
+          description: Catch all error message
+          content:
+            text/plain: Error + description of error
+  /users/{Username}:
     get:
       summary: Gets a user by username.
         parameters:
@@ -141,17 +170,21 @@ paths:
          description: username for user to get details about
         responses:
           "200":
-            description: director details requested
+            description: User details requested
             content:
               application/json:
                 schema:
-                  $ref: "#/components/schemas/movies/items/properties/Director" 
+                  $ref: "#/components/schemas/users" 
           "400":
-            description: Error - no director was found with requested name
+            description: Error - no user was found with requested Username
             content:
-              text/plain: no such director
+              text/plain: Username not found
+          "500":
+          description: Catch all error message
+          content:
+            text/plain: Error + description of error
     put:
-      summary: Updates the user's name with inputed username
+      summary: Updates the user's details with inputed username
       parameters:
       - in: path
         name: Username
@@ -177,8 +210,35 @@ paths:
         "400": 
           description: Error - no user found with inputed username
             content:
-              text/plain: no user with that username
-  /user/{Username}/{movieID}:
+              text/plain: username - there is no such user
+        "500":
+          description: Catch all error message
+          content:
+            text/plain: Error + description of error
+    delete:
+      summary: deletes the user's name with inputed username
+      parameters:
+      - in: path
+        name: Username
+        schema:
+          type: string
+          enum: [callmethis]
+          example: Template
+        required: true
+      responses:
+        "200":
+          description: details of updated user
+          content:
+            text/plain: Username was deleted
+        "400": 
+          description: Error - no user found with inputed username
+            content:
+              text/plain: username was not found
+        "500":
+          description: Catch all error message
+          content:
+            text/plain: Error + description of error
+  /users/{Username}/movies/{movieID}:
     post:
       summary: adds a favorite movie to user's favorite movie
       parameters:
@@ -200,12 +260,16 @@ paths:
         "201":
           description: notification that movie has been added
           content:
-            text/plain: movie has been added to user's favorite movies
+            text/plain: movieID has been added to Username's favorites
         "400": 
           description: Error - no user found with inputed username
             content:
-              text/plain: no user with that username
-  /user/{Username}/{movieID}:
+              text/plain: username not found
+        "500":
+          description: Catch all error message
+          content:
+            text/plain: Error + description of error
+  /users/{Username}/movies/{movieID}:
     delete:
       summary: removes a favorite movie from user's favorite movie
       parameters:
@@ -227,11 +291,11 @@ paths:
         "200":
           description: notification that movie has been removed
           content:
-            text/plain: movie has been removed from user's favorite movies
+            text/plain: movieID has been removed from Username's favorites
         "400": 
           description: Error - no user found with inputed username
             content:
-              text/plain: no user with that username
+              text/plain: username not found
   /user/{Username}:
     delete:
       summary: removes a user by username
