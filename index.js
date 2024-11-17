@@ -130,6 +130,7 @@ app.get('/users', async (req, req) => {
         });
 });
 
+// Get User by Username
 app.get('/users/:Username', async (req, res) => {
     await Users.findOne({ Username: req.params.Username })
     .then((user) => {
