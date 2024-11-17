@@ -134,7 +134,11 @@ app.get('/users', async (req, req) => {
 app.get('/users/:Username', async (req, res) => {
     await Users.findOne({ Username: req.params.Username })
     .then((user) => {
-        res.json(user);
+        if(!user) {
+            res.status(400).send(req.params.Username + ' not found')
+        } else {
+            res.status(200).json(user);
+        }
     })
     .catch((err) => {
         console.error(err);
@@ -154,7 +158,11 @@ app.put('/users/:Username', async (req, res) => {
     },
     { new: true })
     .then((updatedUser) => {
-        res.json(updatedUser);
+        if(!updatedUser) {
+            res.status(400).send(req.params.Username + ' no such Username');
+        } else {
+            res.status(200).json(updatedUser);
+        }
     })
     .catch((err) => {
         console.error(err);
