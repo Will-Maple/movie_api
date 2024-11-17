@@ -93,6 +93,20 @@ paths:
           content:
             text/plain: no such director
   /user:
+    get:
+      summary: Returns a list of all users.
+        description: An array of all users will be sent as a JSON file.
+        responses:
+          "200":
+            description: A JSON array of all users.
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/user"
+          "500":
+            description: Catch all error message
+            content:
+              text/plain: Error + description of error
     post:
       summary: add a new user
       requestBody: 
@@ -113,16 +127,38 @@ paths:
           description: Error - request is missing name
             content:
               text/plain: Needs a name!
-  /user/{id}:
+  /user/{Username}:
+    get:
+      summary: Gets a user by username.
+        parameters:
+        - in: path
+          name: Username
+          schema:
+            type: string
+            enum: [callmethis]
+            example: Template
+         required: true
+         description: username for user to get details about
+        responses:
+          "200":
+            description: director details requested
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/movies/items/properties/Director" 
+          "400":
+            description: Error - no director was found with requested name
+            content:
+              text/plain: no such director
     put:
-      summary: Updates the user's name with inputed id
+      summary: Updates the user's name with inputed username
       parameters:
       - in: path
-        name: id
+        name: Username
         schema:
           type: string
-          enum: [This is an example!]
-          example: This is an example!
+          enum: [callmethis]
+          example: Template
         required: true
       requestBody: 
         description: details of user to be updated
@@ -139,83 +175,83 @@ paths:
               schema:
                 $ref: "#/components/schemas/users"
         "400": 
-          description: Error - no user found with inputed id
+          description: Error - no user found with inputed username
             content:
-              text/plain: no user with that id
-  /user/{id}/{movieTitle}:
+              text/plain: no user with that username
+  /user/{Username}/{movieID}:
     post:
       summary: adds a favorite movie to user's favorite movie
       parameters:
       - in: path
-        name: id
+        name: Username
         schema:
           type: string
-          enum: [This is an example!]
-          example: This is an example!
+          enum: [callmethis]
+          example: Template
         required: true
       - in: path
-        name: movieTitle
+        name: movieID
         schema:
           type: string
-          enum: [Stalker, Solaris, The Mirror, Andrei Rublev, Ivan's Childhood]
-          example: Stalker
+          enum: [672d36d13fdc6e5e560d8197, 672d36d13fdc6e5e560d8199]
+          example: 672d36d13fdc6e5e560d8197
         required: true
       responses:
         "201":
           description: notification that movie has been added
           content:
-            text/plain: movieTitle has been added to user id's favorite movies
+            text/plain: movie has been added to user's favorite movies
         "400": 
-          description: Error - no user found with inputed id
+          description: Error - no user found with inputed username
             content:
-              text/plain: no user with that id
-  /user/{id}/{movieTitle}:
+              text/plain: no user with that username
+  /user/{Username}/{movieID}:
     delete:
       summary: removes a favorite movie from user's favorite movie
       parameters:
       - in: path
-        name: id
+        name: Username
         schema:
           type: string
-          enum: [This is an example!]
-          example: This is an example!
+          enum: [callmethis]
+          example: Template
         required: true
       - in: path
-        name: movieTitle
+        name: movieID
         schema:
           type: string
-          enum: [Stalker, Solaris, The Mirror, Andrei Rublev, Ivan's Childhood]
-          example: Stalker
+          enum: [672d36d13fdc6e5e560d8197, 672d36d13fdc6e5e560d8199]
+          example: 672d36d13fdc6e5e560d8197
         required: true
       responses:
         "200":
           description: notification that movie has been removed
           content:
-            text/plain: movieTitle has been removed from user id's favorite movies
+            text/plain: movie has been removed from user's favorite movies
         "400": 
-          description: Error - no user found with inputed id
+          description: Error - no user found with inputed username
             content:
-              text/plain: no user with that id
-  /user/{id}:
+              text/plain: no user with that username
+  /user/{Username}:
     delete:
-      summary: removes a user by id
+      summary: removes a user by username
       parameters:
       - in: path
-        name: id
+        name: Username
         schema:
           type: string
-          enum: [This is an example!]
-          example: This is an example!
+          enum: [callmethis]
+          example: Template
         required: true
       responses:
         "200":
           description: notification that user has been removed
           content:
-            text/plain: user id has been deleted
+            text/plain: user has been deleted
         "400": 
-          description: Error - no user found with inputed id
+          description: Error - no user found with inputed username
             content:
-              text/plain: no user with that id
+              text/plain: no user with that username
   components:
     schemas:
       movies:
@@ -265,13 +301,19 @@ paths:
         items:
           type: object
           properties:
-            ID: 
+            Username: 
               type: string
-            Name:
+            Password:
               type: string
-            FavoriteMovies:
+            Email:
+              type: string
+            Birthdate:
+              type: date
+            Favorites:
               type: array
         example: 
-          - ID: This is an example!
-          - Name: Me Myself
-          - FavoriteMovies: [Stalker, Ivan's Childhood]
+          - Username: callmethis
+          - Password: Password123
+          - Email: 1234@mail.com
+          - Birthdate: ISODate('1984-02-19T00:00:00.000Z')
+          - FavoriteMovies: ['672d36d13fdc6e5e560d8197', '672d36d13fdc6e5e560d8199']
