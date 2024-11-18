@@ -12,7 +12,7 @@ const app = express(),
 
 const Movies = Models.Movie,
     Users = Models.User;
-mongoose.connect('mongodb://localhost:27017/csmfdb', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://localhost:27017/csmfdb');
 
 app.use(morgan('combined', {stream: accessLogStream}));
 app.use(bodyParser.json());
@@ -57,7 +57,7 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), as
 });
 
 // Create User
-app.post('/users', async (req, res) => {
+app.post('/users', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Users.findOne({ Username: req.body.Username })
         .then((user) => {
             if (user) {
