@@ -21,6 +21,42 @@ paths:
           description: This document.
           content:
             application/json:
+  /login:
+    post:
+      summary: Authentication to login as a registered User
+        parameters:
+        - in: query
+          name: Username
+          schema:
+            type: string
+          description: Username=Username the username for the user to login as
+        - in: query
+          name: Password
+          schema:
+            type: string
+          description: Password=Password the password for the user to login
+        responses:
+          "200":
+           description: ok
+            content:
+              applications/json:
+                schema:
+                  $ref: "#/components/schemas/users"
+                  token:
+                    type: string
+          "400": 
+            description: Incorrect Username or Password
+              content:
+                applications/json:
+                  schema:
+                    message: 
+                      type: string
+                    user:
+                      type: boolean
+          "500":
+            description: Catch all error message
+            content:
+              text/plain: Error + description of error
   /movies:
     get:
       summary: Returns a list of movies.
