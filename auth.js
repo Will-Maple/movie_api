@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken'),
 require('./passport');
 
 let generateJWTToken = (user) => {
-    return jwt.sign(user, jswtSecret, {
+    return jwt.sign(user, jwtSecret, {
         subject: user.Username,
         expiresIn: '7d',
         algorithm: 'HS256'
@@ -22,11 +22,11 @@ module.exports = (router) => {
                     user: user
                 });
             }
-            req.login(user, { sesion: false }, (error) => {
+            req.login(user, { session: false }, (error) => {
                 if (error) {
                     res.send(error);
                 }
-                let token = generateJWTToke(user.toJSON());
+                let token = generateJWTToken(user.toJSON());
                 return res.json({ user, token });
             });
         })(req, res);

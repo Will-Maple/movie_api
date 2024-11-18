@@ -255,3 +255,8 @@ Timestamp: Fri Oct 25 2024 14:20:18 GMT-0500 (Central Daylight Time)
 ::1 - - [17/Nov/2024:20:47:29 +0000] "POST /users/Template/movies/672d36d13fdc6e5e560d8191 HTTP/1.1" 201 63 "-" "PostmanRuntime/7.42.0"
 ::1 - - [17/Nov/2024:20:48:16 +0000] "DELETE /users/Template/movies/672d36d13fdc6e5e560d8191 HTTP/1.1" 201 67 "-" "PostmanRuntime/7.42.0"
 ::1 - - [18/Nov/2024:21:22:44 +0000] "GET /users HTTP/1.1" 401 - "-" "PostmanRuntime/7.42.0"
+::1 - - [18/Nov/2024:21:37:09 +0000] "POST /login?Username=Template&Password=Password HTTP/1.1" 400 2 "-" "PostmanRuntime/7.42.0"
+::1 - - [18/Nov/2024:21:37:58 +0000] "POST /login?Username=Template&Password=Password HTTP/1.1" 400 2 "-" "PostmanRuntime/7.42.0"
+::1 - - [18/Nov/2024:21:40:18 +0000] "POST /login?Username=Template&Password=Password HTTP/1.1" 400 2 "-" "PostmanRuntime/7.42.0"
+::1 - - [18/Nov/2024:21:42:37 +0000] "POST /login?Username=Template&Password=Password HTTP/1.1" 200 561 "-" "PostmanRuntime/7.42.0"
+::1 - - [18/Nov/2024:21:45:12 +0000] "GET /users HTTP/1.1" 200 817 "-" "PostmanRuntime/7.42.0"
