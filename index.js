@@ -16,6 +16,12 @@ mongoose.connect('mongodb://localhost:27017/csmfdb', { useNewUrlParser: true, us
 
 app.use(morgan('combined', {stream: accessLogStream}));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+let auth = require('./auth')(app);
+
+const passport = require('passport');
+require('./passport');
 
 // Read Documentation
 app.get('/', (req, res) => {
