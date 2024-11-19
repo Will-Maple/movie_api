@@ -84,7 +84,6 @@ app.post('/users',
     ],
      async (req, res) => {
     let errors = validationResult(req);
-
     if (!errors.isEmpty()) {
         return res.status(422).json({ errors: errors.array() });
     }
@@ -125,6 +124,7 @@ app.put('/users/:Username',
         check('Birthday', 'Must be in YYYY-MM-DD format').isISO8601().toDate()
     ],
     passport.authenticate('jwt', { session: false }), async (req, res) => {
+    let errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(422).json({ errors: errors.array() });
     }
