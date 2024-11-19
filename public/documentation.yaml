@@ -188,6 +188,13 @@ paths:
           description: The Username requested is already taken. It must be unique.
             content:
               text/plain: Username already exists
+        "422":
+          description: validation error - Username, email, or password filled incorrectly
+            content:
+              applications/json:
+                schema:
+                  errors:
+                    type: array
         "500":
           description: Catch all error message
           content:
@@ -247,6 +254,13 @@ paths:
           description: Error - no user found with inputed username
             content:
               text/plain: username - there is no such user
+        "422":
+          description: validation error - Username, password, or email filled incorrectly
+            content:
+              applications/json:
+                schema:
+                  errors:
+                    type: array
         "500":
           description: Catch all error message
           content:

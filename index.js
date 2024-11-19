@@ -37,6 +37,8 @@ let auth = require('./auth')(app);
 const passport = require('passport');
 require('./passport');
 
+const { check, validationResult} = require('express-validator');
+
 // Read Documentation
 app.get('/', (req, res) => {
     res.status(200).sendFile(path.join(__dirname, '/public/documentation.yaml'));
@@ -71,7 +73,21 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), as
 });
 
 // Create User
-app.post('/users', async (req, res) => {
+app.post('/users', 
+    [
+        check('Username', 'Username must be 5 or more characters').isLength({min: 5}),
+        check('Username', 'Username contatins non-allowed characters').isAlphanumeric(),
+        check('Password', 'Password is required').isLength({min: 8}),
+        check('Email', 'This is not an Email').isEmail(),
+        check('Birthday', 'Must be in YYYY-MM-DD format').isISO8601().toDate()
+    ],
+     async (req, res) => {
+    let errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
+
     let hashedPassword = Users.hashPassword(req.body.Password);
     await Users.findOne({ Username: req.body.Username })
         .then((user) => {
@@ -99,15 +115,28 @@ app.post('/users', async (req, res) => {
 });
 
 // Update User by Username
-app.put('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
+app.put('/users/:Username', 
+    [
+        check('Username', 'Username must be 5 or more characters').isLength({min: 5}),
+        check('Username', 'Username contatins non-allowed characters').isAlphanumeric(),
+        check('Password', 'Password is required').isLength({min: 8}),
+        check('Email', 'This is not an Email').isEmail(),
+        check('Birthday', 'Must be in YYYY-MM-DD format').isISO8601().toDate()
+    ],
+    passport.authenticate('jwt', { session: false }), async (req, res) => {
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
+
     if(req.user.Username !== req.params.Username){
         return res.status(400).send('Permission denied');
     }
 
+    let hashedPassword = Users.hashPassword(req.body.Password);
     await Users.findOneAndUpdate({ Username: req.params.Username },
     { $set: {
         Username: req.body.Username,
-        Password: req.body.Password,
+        Password: hashedPassword,
         Email: req.body.Email,
         Birthday: req.body.Birthday
         }
