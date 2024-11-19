@@ -12,7 +12,8 @@ const app = express(),
 
 const Movies = Models.Movie,
     Users = Models.User;
-mongoose.connect('mongodb://localhost:27017/csmfdb');
+/*mongoose.connect('mongodb://localhost:27017/csmfdb' );*/
+mongoose.connect(process.env.CONNECTION_URI);
 
 app.use(morgan('combined', {stream: accessLogStream}));
 app.use(bodyParser.json());
