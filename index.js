@@ -20,7 +20,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const cors = require('cors');
-let allowedOrigins = ['http://localhost:8080', 'http://placeholder.com'];
+let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234' 'http://placeholder.com'];
 
 app.use(cors({
     origin: (origin, callback) => {
