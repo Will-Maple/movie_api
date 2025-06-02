@@ -390,7 +390,7 @@ paths:
             URL: 
               type: string
             Subs: 
-            type: array
+              type: array
               items:
                 properties:
                   Spanish: 
@@ -430,4 +430,4 @@ paths:
           - Password: Password123
           - Email: 1234@mail.com
           - Birthdate: 1984-02-19T00:00:00.000Z
-          - FavoriteMovies: ['672d36d13fdc6e5e560d8197', '672d36d13fdc6e5e560d8199']
+          - Favorites: ['672d36d13fdc6e5e560d8197', '672d36d13fdc6e5e560d8199']
