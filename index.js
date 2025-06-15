@@ -48,7 +48,7 @@ app.get('/', (req, res) => {
 
 /**
 * Read All Users
-* @returns {array} Conatains all users each with Username, Password, Email, Birthdate, Favorites
+* @returns {array} Contains all users each with Username, Password, Email, Birthdate, Favorites
 */
 app.get('/users', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Users.find()
@@ -63,7 +63,7 @@ app.get('/users', passport.authenticate('jwt', { session: false }), async (req, 
 
 /**
 * Get User by Username
-* @returns {array} Conatains user with Username, Password, Email, Birthdate, Favorites
+* @returns {array} Contains user with Username, Password, Email, Birthdate, Favorites
 */
 app.get('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Users.findOne({ Username: req.params.Username })
@@ -86,7 +86,7 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), as
 * @param {string} Password must be 9 characters or more
 * @param {string} Email must be an email
 * @param {date} Birthday must be in yyyy-mm-dd format
-* @returns {array} Conatains user with Username, Password, Email, Birthdate, Favorites
+* @returns {array} Contains user with Username, Password, Email, Birthdate, Favorites
 */
 app.post('/users',
     [
@@ -134,7 +134,7 @@ app.post('/users',
 * @param {string} Password must be 9 characters or more
 * @param {string} Email must be an email
 * @param {date} Birthday must be in yyyy-mm-dd format
-* @returns {array} Conatains user with Username, Password, Email, Birthdate, Favorites
+* @returns {array} Contains user with Username, Password, Email, Birthdate, Favorites
 */
 app.put('/users/:Username',
     [
@@ -200,7 +200,7 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false }),
 
 /**
 * Read all Movies
-* @returns {array} Conatains all movies each with Title, Year, Director with Name, URL, Subs with Spanish and SpanishURL, and Genre with Name and Description. 
+* @returns {array} Contains all movies each with Title, Year, Director with Name, URL, Subs with Spanish and SpanishURL, and Genre with Name and Description. 
 */
 app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Movies.find()
@@ -216,7 +216,7 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), async (req,
 /**
 * Read Movie by Title
 * @param {string} Title
-* @returns {array} Conatains movie with Title, Year, Director with Name, URL, Subs with Spanish and SpanishURL, and Genre with Name and Description. 
+* @returns {array} Contains movie with Title, Year, Director with Name, URL, Subs with Spanish and SpanishURL, and Genre with Name and Description. 
 */
 app.get('/movies/:title', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Movies.findOne({ Title: req.params.title })
@@ -236,7 +236,7 @@ app.get('/movies/:title', passport.authenticate('jwt', { session: false }), asyn
 /**
 * Read Genre by genre name
 * @param {string} genreName
-* @returns {array} Conatains Genre with Name and Description. 
+* @returns {array} Contains Genre with Name and Description. 
 */
 app.get('/movies/genre/:genreName', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Movies.findOne({ 'Genre.Name': req.params.genreName })
@@ -256,7 +256,7 @@ app.get('/movies/genre/:genreName', passport.authenticate('jwt', { session: fals
 /**
 * Read Director by director name
 * @param {string} directorName
-* @returns {array} Conatains Director with Name
+* @returns {array} Contains Director with Name
 */
 app.get('/movies/director/:directorName', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Movies.findOne({ 'Director.Name': req.params.directorName })

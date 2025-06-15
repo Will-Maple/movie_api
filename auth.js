@@ -14,6 +14,12 @@ let generateJWTToken = (user) => {
 }
 
 module.exports = (router) => {
+    /**
+* Login user
+* @param {string} Username must be 5 characters or more and alphanumeric
+* @param {string} Password must be 9 characters or more
+* @returns {object} Conatains a user array with Username, Password, Email, Birthdate, Favorites and a token for jwt auth 
+*/
     router.post('/login', (req, res) => {
         passport.authenticate('local', { session: false }, (error, user, info) => {
             if (error || !user) {
