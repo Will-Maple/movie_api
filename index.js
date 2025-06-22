@@ -1,3 +1,13 @@
+/** Express router providing user and movie routes
+ * @module routers/usersMovies
+ * @requires express
+ *
+ */
+
+/**
+ * express module
+ * @const
+ */
 const express = require('express'),
     morgan = require('morgan'),
     fs = require('fs'),
@@ -7,6 +17,12 @@ const express = require('express'),
     mongoose = require('mongoose'),
     Models = require('./models.js');
 
+/**
+ * Express router to mount user and movie related functions on.
+ * @type {object}
+ * @constant
+ * @namespace movieApiRouter
+ */
 const app = express(),
     accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), { flags: 'a' });
 
@@ -46,10 +62,13 @@ app.get('/', (req, res) => {
     res.status(200).sendFile(path.join(__dirname, '/public/documentation.yaml'));
 })
 
+
 /**
-* Read All Users
-* @returns {array} Contains all users each with Username, Password, Email, Birthdate, Favorites
-*/
+ * Route to get all users - Contains all users each with Username, Password, Email, Birthdate, Favorites
+ * @name getUsers
+ * @function
+  @memberof module:routers/movie_api~movieApiRouter
+ */
 app.get('/users', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Users.find()
         .then((users) => {
@@ -62,9 +81,11 @@ app.get('/users', passport.authenticate('jwt', { session: false }), async (req, 
 });
 
 /**
-* Get User by Username
-* @returns {array} Contains user with Username, Password, Email, Birthdate, Favorites
-*/
+ * Route to get single user - Expects Username - Contains user with Username, Password, Email, Birthdate, Favorites
+ * @name getUser
+ * @function
+  @memberof module:routers/movie_api~movieApiRouter
+ */
 app.get('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Users.findOne({ Username: req.params.Username })
         .then((user) => {
@@ -81,13 +102,11 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), as
 });
 
 /**
-* Create user
-* @param {string} Username must be 5 characters or more and alphanumeric
-* @param {string} Password must be 9 characters or more
-* @param {string} Email must be an email
-* @param {date} Birthday must be in yyyy-mm-dd format
-* @returns {array} Contains user with Username, Password, Email, Birthdate, Favorites
-*/
+ * Route to create a new user - Expects Username, Password, Email and Birthday - Returns user with Username, Password, Email, Birthdate, Favorites
+ * @name postUser
+ * @function
+  @memberof module:routers/movie_api~movieApiRouter
+ */
 app.post('/users',
     [
         check('Username', 'Username must be 5 or more characters').isLength({ min: 5 }),
@@ -136,6 +155,13 @@ app.post('/users',
 * @param {date} Birthday must be in yyyy-mm-dd format
 * @returns {array} Contains user with Username, Password, Email, Birthdate, Favorites
 */
+
+/**
+ * Route to make updates to a user - Expects Username, Password, Email and Birthday - Returns user with Username, Password, Email, Birthdate, Favorites
+ * @name putUser
+ * @function
+  @memberof module:routers/movie_api~movieApiRouter
+ */
 app.put('/users/:Username',
     [
         check('Username', 'Username must be 5 or more characters').isLength({ min: 5 }),
@@ -179,10 +205,11 @@ app.put('/users/:Username',
     });
 
 /**
-* Delete User by Username
-* @param {string} Username
-* @returns {string} confirmation message
-*/
+ * Route to delete a user - Expects Username - Returns confirmation message
+ * @name deleteUser
+ * @function
+  @memberof module:routers/movie_api~movieApiRouter
+ */
 app.delete('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Users.findOneAndDelete({ Username: req.params.Username })
         .then((user) => {
@@ -199,9 +226,11 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false }),
 });
 
 /**
-* Read all Movies
-* @returns {array} Contains all movies each with Title, Year, Director with Name, URL, Subs with Spanish and SpanishURL, and Genre with Name and Description. 
-*/
+ * Route to read all movies - Contains all movies each with Title, Year, Director with Name, URL, Subs with Spanish and SpanishURL, and Genre with Name and Description.
+ * @name getMovies
+ * @function
+  @memberof module:routers/movie_api~movieApiRouter
+ */
 app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Movies.find()
         .then((movies) => {
@@ -214,10 +243,11 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), async (req,
 });
 
 /**
-* Read Movie by Title
-* @param {string} Title
-* @returns {array} Contains movie with Title, Year, Director with Name, URL, Subs with Spanish and SpanishURL, and Genre with Name and Description. 
-*/
+ * Route to read a single movie -  Contains movie with Title, Year, Director with Name, URL, Subs with Spanish and SpanishURL, and Genre with Name and Description.
+ * @name getMovie
+ * @function
+  @memberof module:routers/movie_api~movieApiRouter
+ */
 app.get('/movies/:title', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Movies.findOne({ Title: req.params.title })
         .then((movie) => {
@@ -234,10 +264,11 @@ app.get('/movies/:title', passport.authenticate('jwt', { session: false }), asyn
 });
 
 /**
-* Read Genre by genre name
-* @param {string} genreName
-* @returns {array} Contains Genre with Name and Description. 
-*/
+ * Route to read a genre - Expects genreName - Contains Genre with Name and Description.
+ * @name getGenre
+ * @function
+  @memberof module:routers/movie_api~movieApiRouter
+ */
 app.get('/movies/genre/:genreName', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Movies.findOne({ 'Genre.Name': req.params.genreName })
         .then((movie) => {
@@ -254,10 +285,11 @@ app.get('/movies/genre/:genreName', passport.authenticate('jwt', { session: fals
 });
 
 /**
-* Read Director by director name
-* @param {string} directorName
-* @returns {array} Contains Director with Name
-*/
+ * Route to read a director - Expects directorName - Contains Director with Name
+ * @name getDirector
+ * @function
+  @memberof module:routers/movie_api~movieApiRouter
+ */
 app.get('/movies/director/:directorName', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Movies.findOne({ 'Director.Name': req.params.directorName })
         .then((movie) => {
@@ -274,11 +306,11 @@ app.get('/movies/director/:directorName', passport.authenticate('jwt', { session
 });
 
 /**
-* Create Favorite Movie by Username and MovieID
-* @param {string} Username
-* @param {string} movieID
-* @returns {string} Confirmation message
-*/
+ * Route to add a favorite movie to a user's favorites - Expects Username and movieID - Contains confirmation message
+ * @name postFavorite
+ * @function
+  @memberof module:routers/movie_api~movieApiRouter
+ */
 app.post('/users/:Username/movies/:movieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Users.findOneAndUpdate({ Username: req.params.Username },
         {
@@ -299,11 +331,11 @@ app.post('/users/:Username/movies/:movieID', passport.authenticate('jwt', { sess
 });
 
 /**
-* Delete favorite movie by Username and MovieID
-* @param {string} Username
-* @param {string} movieID
-* @returns {string} Confirmation message
-*/
+ * Route to delete a favorite movie from a user's favorites - Expects Username and movieID - Contains confirmation message
+ * @name deleteFavorite
+ * @function
+  @memberof module:routers/movie_api~movieApiRouter
+ */
 app.delete('/users/:Username/movies/:movieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Users.findOneAndUpdate({ Username: req.params.Username },
         {
