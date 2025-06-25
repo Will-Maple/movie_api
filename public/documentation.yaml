@@ -1,8 +1,8 @@
 openapi: 3.0.0
 
 info:
-  title: Movie API
-  description: An API being used to learn programming with NODE and back-end web development. I use movie data from the MosFilm youtube channel.
+  title: MosFilm API
+  description: Using express and mongoose to provide a backend for clients to display movie data from the MosFilm youtube channel and provide for authentication and favoriting.
   version: 1.0.0.DEV
 
 
