@@ -1,30 +1,40 @@
-This is app created as part of the Career Foundry Full-Stack Immersion course. I used it to learn or improve in...
-{
-    MERN stack,
-    Node.js,
-    MongoDB,
-    Express,
-    SQL,
-    Postman,
-    Mongoose,
-    Swagger Documentation
- } 
- 
-The app stores sample movie from the youtube channel "MosFilm" in a MongoDB Database and allows users to enter, update, or delete their data. The user, once authenticated, is allowed to get the movie data and add or remove movies to a list of their favorites.
+# MosFilm API (Express, MongoDB, Swagger)
+An API built to pair with MongoDB to offer access to a database of movies, in this case a database hosting movies from the MosFilm youtube channel. It provides the details and links to those movies and JWT auth to allow users to login and favorite the movies they like.
+<br>
+<br>
 
-The project is available on Github (https://github.com/Will-Maple/movie_api) and may be deployed here (https://mosfilm-api.onrender.com/). The deployment link contains further documentation.
+<img src="https://github.com/user-attachments/assets/97546db3-3149-4be2-8315-32fde588f57a" width=70% alt="Image of app"> 
 
-The app has the following dependencies,
-    "bcrypt": "^5.1.1",
-    "body-parser": "^1.20.3",
-    "cors": "^2.8.5",
-    "express": "^4.21.1",
-    "express-validator": "^7.2.0",
-    "jsonwebtoken": "^9.0.2",
-    "lodash": "^4.17.21",
-    "mongoose": "^8.8.0",
-    "morgan": "^1.10.0",
-    "passport": "^0.7.0",
-    "passport-jwt": "^4.0.1",
-    "passport-local": "^1.0.0",
-    "uuid": "^11.0.2"
+## Tech-stack
+- Express
+- Mongo DB
+- Postman
+- Mongoose
+- Swagger Documentation
+- JS Doc
+- Node
+
+## Steps to Run 
+
+### Clone repo
+- Of course!
+
+### Install Dependancies
+```sh
+ npm install
+```
+
+### Connect MongoDB
+- To connect locally, change the second half of this conditional to your local MongoDB port from the Index.js. 
+```js
+mongoose.connect(process.env.CONNECTION_URI || "mongodb://localhost:27017/csmfdb");
+```
+- Otherwise follow the instructions for your host.
+
+### Run locally
+```sh
+npm run dev
+```
+
+## Dependencies
+- Mongo DB
