@@ -26,10 +26,12 @@ const express = require('express'),
 const app = express(),
     accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), { flags: 'a' });
 
+const router = express.Router();
+
 const Movies = Models.Movie,
     Users = Models.User;
 /*mongoose.connect('mongodb://localhost:27017/csmfdb' );*/
-mongoose.connect(process.env.CONNECTION_URI);
+mongoose.connect(process.env.CONNECTION_URI || "mongodb://localhost:27017/csmfdb");
 
 app.use(morgan('combined', { stream: accessLogStream }));
 app.use(bodyParser.json());
@@ -58,7 +60,7 @@ require('./passport');
 const { check, validationResult } = require('express-validator');
 
 // Read Documentation
-app.get('/', (req, res) => {
+router.get('/', (req, res) => {
     res.status(200).sendFile(path.join(__dirname, '/public/documentation.yaml'));
 })
 
@@ -69,7 +71,7 @@ app.get('/', (req, res) => {
  * @function
   @memberof module:routers/movie_api~movieApiRouter
  */
-app.get('/users', passport.authenticate('jwt', { session: false }), async (req, res) => {
+router.get('/users', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Users.find()
         .then((users) => {
             res.status(200).json(users);
@@ -86,7 +88,7 @@ app.get('/users', passport.authenticate('jwt', { session: false }), async (req, 
  * @function
   @memberof module:routers/movie_api~movieApiRouter
  */
-app.get('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
+router.get('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Users.findOne({ Username: req.params.Username })
         .then((user) => {
             if (!user) {
@@ -107,7 +109,7 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), as
  * @function
   @memberof module:routers/movie_api~movieApiRouter
  */
-app.post('/users',
+router.post('/users',
     [
         check('Username', 'Username must be 5 or more characters').isLength({ min: 5 }),
         check('Username', 'Username contatins non-allowed characters').isAlphanumeric(),
@@ -148,21 +150,12 @@ app.post('/users',
     });
 
 /**
-* Update User by Username
-* @param {string} Username must be 5 characters or more and alphanumeric
-* @param {string} Password must be 9 characters or more
-* @param {string} Email must be an email
-* @param {date} Birthday must be in yyyy-mm-dd format
-* @returns {array} Contains user with Username, Password, Email, Birthdate, Favorites
-*/
-
-/**
  * Route to make updates to a user - Expects Username, Password, Email and Birthday - Returns user with Username, Password, Email, Birthdate, Favorites
  * @name putUser
  * @function
   @memberof module:routers/movie_api~movieApiRouter
  */
-app.put('/users/:Username',
+router.put('/users/:Username',
     [
         check('Username', 'Username must be 5 or more characters').isLength({ min: 5 }),
         check('Username', 'Username contatins non-allowed characters').isAlphanumeric(),
@@ -210,7 +203,7 @@ app.put('/users/:Username',
  * @function
   @memberof module:routers/movie_api~movieApiRouter
  */
-app.delete('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
+router.delete('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Users.findOneAndDelete({ Username: req.params.Username })
         .then((user) => {
             if (!user) {
@@ -231,7 +224,7 @@ app.delete('/users/:Username', passport.authenticate('jwt', { session: false }),
  * @function
   @memberof module:routers/movie_api~movieApiRouter
  */
-app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
+router.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Movies.find()
         .then((movies) => {
             res.status(200).json(movies);
@@ -248,7 +241,7 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), async (req,
  * @function
   @memberof module:routers/movie_api~movieApiRouter
  */
-app.get('/movies/:title', passport.authenticate('jwt', { session: false }), async (req, res) => {
+router.get('/movies/:title', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Movies.findOne({ Title: req.params.title })
         .then((movie) => {
             if (!movie) {
@@ -269,7 +262,7 @@ app.get('/movies/:title', passport.authenticate('jwt', { session: false }), asyn
  * @function
   @memberof module:routers/movie_api~movieApiRouter
  */
-app.get('/movies/genre/:genreName', passport.authenticate('jwt', { session: false }), async (req, res) => {
+router.get('/movies/genre/:genreName', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Movies.findOne({ 'Genre.Name': req.params.genreName })
         .then((movie) => {
             if (!movie) {
@@ -290,7 +283,7 @@ app.get('/movies/genre/:genreName', passport.authenticate('jwt', { session: fals
  * @function
   @memberof module:routers/movie_api~movieApiRouter
  */
-app.get('/movies/director/:directorName', passport.authenticate('jwt', { session: false }), async (req, res) => {
+router.get('/movies/director/:directorName', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Movies.findOne({ 'Director.Name': req.params.directorName })
         .then((movie) => {
             if (!movie) {
@@ -311,7 +304,7 @@ app.get('/movies/director/:directorName', passport.authenticate('jwt', { session
  * @function
   @memberof module:routers/movie_api~movieApiRouter
  */
-app.post('/users/:Username/movies/:movieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
+router.post('/users/:Username/movies/:movieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Users.findOneAndUpdate({ Username: req.params.Username },
         {
             $addToSet: { Favorites: req.params.movieID }
@@ -336,7 +329,7 @@ app.post('/users/:Username/movies/:movieID', passport.authenticate('jwt', { sess
  * @function
   @memberof module:routers/movie_api~movieApiRouter
  */
-app.delete('/users/:Username/movies/:movieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
+router.delete('/users/:Username/movies/:movieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Users.findOneAndUpdate({ Username: req.params.Username },
         {
             $pull: { Favorites: req.params.movieID }
